@@ -20,7 +20,6 @@ export function NewPostButton({ token }: { token: string }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create a new post</DialogTitle>
-          
         </DialogHeader>
         {/* @ts-expect-error Server Component */}
         <AddForm token={token} />
@@ -50,9 +49,6 @@ function AddForm({ token, className }: { token: string; className: string }) {
       title,
       body,
     };
-
-    console.log(issueToCreate)
-    console.log(token)
 
     const newIssue = await createIssue(issueToCreate, { token });
     await fetch("/api/revalidate");
@@ -84,8 +80,7 @@ function AddForm({ token, className }: { token: string; className: string }) {
         />
       </div>
       <DialogClose disabled={title.length == 0} onClick={handleCreateIssue}>
-          Create a Post!
-
+        Create a Post!
       </DialogClose>
     </form>
   );
