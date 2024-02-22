@@ -8,10 +8,9 @@ import { getIssues } from "@/lib/github-issues-api";
 import { useScrollPosition } from "@/lib/hooks/use-scroll-position";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { generateText } from "@tiptap/react";
 
-// export const runtime = "edge";
-
-const SCROLL_THRESHOLD = 80;
+const SCROLL_THRESHOLD = 100;
 const PER_PAGE = 10;
 const DIRECTION = "asc";
 const FETCH_DELAY = 5000;
@@ -39,6 +38,7 @@ export default function Page() {
   }, [scrollPosition]);
 
   const fetchData = useCallback(async () => {
+    console.log("fetching data");
     const params = {
       page: searchParams.get("page"),
       per_page: String(PER_PAGE),
@@ -51,10 +51,11 @@ export default function Page() {
       return;
     }
 
+    const isUnique = (issue: GitHubIssue, prev: GitHubIssue[]) =>
+      !prev.some((prevIssue) => prevIssue.number === issue.number);
+
     setIssues((prev) => {
-      const unique = issues?.filter(
-        (issue) => !prev.some((prevIssue) => prevIssue.number === issue.number),
-      );
+      const unique = issues?.filter((issue) => isUnique(issue, prev));
       return [...prev, ...unique];
     });
     setCurrentPage(Number(searchParams.get("page")) || 1);
@@ -80,12 +81,11 @@ export default function Page() {
 
   const mappedIssues = useMemo(() => {
     return issues.map((issue) => {
+      const title = issue.title;
+      const description = issue.body;
       return {
-        title: issue.title,
-        description:
-          issue.body?.length > 100
-            ? `${issue.body?.slice(0, 100)}...`
-            : issue.body,
+        title: title,
+        description: description,
         link: `/posts/${issue.number}`,
       };
     });
@@ -94,12 +94,12 @@ export default function Page() {
   return (
     <div className="z-0 p-3">
       <h1 className="text-center text-3xl font-bold">Posts</h1>
-      <div className="h-96 w-full ">
+      <div className="h-96 w-screen p-3 ">
         {issues.length == 0 ? (
           <div className="grid grid-cols-1  gap-3 py-10 md:grid-cols-2 lg:grid-cols-3">
-            <Skeleton className="group relative block min-h-48 min-w-96  rounded-xl md:min-w-96 lg:min-w-72" />
-            <Skeleton className="group relative block min-h-48 min-w-96 rounded-xl md:min-w-96 lg:min-w-72" />
-            <Skeleton className="group relative block min-h-48 min-w-96 rounded-xl md:min-w-96 lg:min-w-72" />
+            <Skeleton className="group relative block h-48 w-full  rounded-xl " />
+            <Skeleton className="group relative block h-48 w-full  rounded-xl " />
+            <Skeleton className="group relative block h-48 w-full  rounded-xl " />
           </div>
         ) : (
           <HoverEffect items={mappedIssues} />
