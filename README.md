@@ -30,8 +30,6 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 [GitHub Blog](https://github-blog-blue.vercel.app/posts/1)
 
 [Guide for using this app](https://github-blog-blue.vercel.app/posts/24)
-
-[App Route Tree Visualizer](https://github-blog-blue.vercel.app/visualizer)
 ## Project Structure 
 1. This project was built on top of [Novel](https://novel.sh/), on top of Next.js App router, also a Turbo repository template, which gives scalability and flexibility to the project.
 2. File structure:
@@ -144,6 +142,8 @@ See <a href="#installation"><strong>Installation</strong></a> to get started rig
 - [x] Lighthouse
 ![LightHouse](LightHouse.png)
 *Caption: LightHouse report (Remaining score are from packages)*
+
+1. You can check out the App Router Tree Visulizer at `http://localhost:3000/visualizer` to see the router tree of the app.
 
 ## Playground
 Explore the application here: [GitHub Blog](https://github-blog-blue.vercel.app). This project introduces an innovative way to manage blog content using GitHub repositories, offering two distinct modes of operation: a self-hosted blog and a platform blog. See the ***Guide*** Post for more information.
