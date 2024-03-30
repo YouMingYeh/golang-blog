@@ -43,7 +43,7 @@ async function fetchGitHubAPI<T>(
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,
-      cache: "no-store",
+      next: { revalidate: 30 },
     });
 
     if (!response.ok) {

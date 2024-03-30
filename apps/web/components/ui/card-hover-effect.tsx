@@ -109,14 +109,16 @@ export const CardDescription = ({
   className?: string;
   htmlContent: string; // Expecting a string now
 }) => {
-  const content = markdownToHtml(htmlContent);
+  const content = htmlContent;
   return (
     <p
       className={cn(
-        "mt-8 text-sm leading-relaxed tracking-wide text-zinc-600 dark:text-slate-300",
+        "mt-8 max-h-20 overflow-y-scroll text-sm leading-relaxed tracking-wide text-zinc-600 dark:text-slate-300",
         className,
       )}
-      dangerouslySetInnerHTML={{ __html: content }} // Using dangerouslySetInnerHTML
+      dangerouslySetInnerHTML={{
+        __html: `<div class="flex flex-col gap-2">${content}</div>`,
+      }} // Using dangerouslySetInnerHTML
     ></p>
   );
 };
